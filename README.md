@@ -1,9 +1,10 @@
 # LifePet - VetBot API (Sprint 4)
 
-Disruptive Architectures: IoT, IoB & Generative IA - Challenge FIAP 2026  
-Empresa parceira: Clyvo VET
+**Disruptive Architectures: IoT, IoB & Generative IA - Challenge FIAP 2026**
 
-**Vídeo de demonstração (YouTube, não listado):** LINK_DO_VIDEO
+**Empresa parceira:** Clyvo VET
+
+**Vídeo de demonstração (YouTube, não listado):** [Assistir ao vídeo](https://www.youtube.com/watch?v=z5OcRJo8qyw)
 
 ## Sobre a Sprint 4
 
@@ -53,7 +54,7 @@ VetBot (Gemini)
 ## Tecnologias
 
 - Python 3.14, FastAPI, Uvicorn e Pydantic.
-- Gemini 3.5 Flash (modelo de linguagem) e `gemini-embedding-001` (embeddings), SDK `google-genai`.
+- Gemini 3.5 Flash Lite (modelo de linguagem) e `gemini-embedding-001` (embeddings), SDK `google-genai`.
 - NumPy (similaridade por cosseno no RAG).
 - Java 17+, Spring Boot 3.3.5, Spring Security com JWT, JPA, Flyway e H2.
 - React com TypeScript e Vite.
@@ -64,23 +65,23 @@ VetBot (Gemini)
 LifePet-VetBot-API/
 ├── api-ia/                  API de inteligência artificial (Python/FastAPI)
 │   ├── main.py              Rotas GET / e POST /chat
-│   ├── schemas.py            Contratos de entrada e saída
-│   ├── vetbot.py             Lógica do assistente, RAG e Function Calling
-│   ├── rag.py                Embeddings e busca semântica
-│   ├── ferramentas.py        Ferramentas de consulta dos dados do pet
-│   ├── documentos.py         Base de conhecimento veterinária
-│   ├── config.py             Configurações e modelos Gemini
-│   ├── requirements.txt      Dependências Python
-│   ├── .env.example          Modelo das variáveis de ambiente
-│   └── docs/                 Imagens da documentação
+│   ├── schemas.py           Contratos de entrada e saída
+│   ├── vetbot.py            Lógica do assistente, RAG e Function Calling
+│   ├── rag.py               Embeddings e busca semântica
+│   ├── ferramentas.py       Ferramentas de consulta dos dados do pet
+│   ├── documentos.py        Base de conhecimento veterinária
+│   ├── config.py            Configurações e modelos Gemini
+│   ├── requirements.txt     Dependências Python
+│   ├── .env.example         Modelo das variáveis de ambiente
+│   └── docs/                Imagens da documentação
 │
-├── backend/                  Back-end Java (Spring Boot)
+├── backend/                 Back-end Java (Spring Boot)
 │   ├── pom.xml
 │   └── src/
 │       ├── main/
 │       └── test/
 │
-├── frontend/                 Front-end React (TypeScript/Vite)
+├── frontend/                Front-end React (TypeScript/Vite)
 │   ├── package.json
 │   ├── public/
 │   └── src/
@@ -138,29 +139,31 @@ Para executar o projeto completo, é necessário iniciar os três serviços em t
 
 ### 1. API de IA (Python/FastAPI)
 
-Primeiro, entre na pasta `api-ia`:
+Os comandos abaixo devem ser executados a partir da pasta raiz do projeto.
+
+Primeiro, crie o arquivo `.env` com base no modelo:
 
 ```powershell
-cd api-ia
+Copy-Item api-ia/.env.example .env
 ```
 
-Crie o arquivo `.env` com base no `.env.example`:
-
-```powershell
-Copy-Item .env.example .env
-```
-
-Abra o arquivo `api-ia/.env` e informe sua chave do Google AI Studio, obtida em [aistudio.google.com/apikey](https://aistudio.google.com/apikey):
+Abra o arquivo `.env` na raiz do projeto e informe sua chave do Google AI Studio, obtida em [aistudio.google.com/apikey](https://aistudio.google.com/apikey):
 
 ```env
 GEMINI_API_KEY=sua_chave_aqui
 ```
 
-Crie e ative o ambiente virtual:
+Crie e ative o ambiente virtual na raiz do projeto:
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
+```
+
+Entre na pasta `api-ia`:
+
+```powershell
+cd api-ia
 ```
 
 Instale as dependências:
@@ -197,7 +200,8 @@ Execute a classe `LifepetApplication` pelo IntelliJ IDEA ou, pelo terminal dentr
 
 O back-end ficará disponível na porta 8080.
 
-**Usuário de teste:** `vitor@email.com`  
+**Usuário de teste:** `vitor@email.com`
+
 **Senha:** `123456`
 
 ### 3. Front-end React (TypeScript/Vite)
@@ -245,7 +249,7 @@ Acesse [http://localhost:5173](http://localhost:5173), entre com o usuário de t
 ## Limitações conhecidas
 
 - O banco do Java (H2) é em memória: os dados de teste são recriados a cada execução.
-- O modelo `gemini-3.5-flash` pode retornar erro 503 em momentos de alta demanda. Nesse caso, a API devolve erro 502 e basta repetir a pergunta.
+- O modelo `gemini-3.5-flash-lite` pode retornar erro 503 em momentos de alta demanda. Nesse caso, a API devolve erro 502 e basta repetir a pergunta.
 - Os dados do pet são enviados inteiros a cada pergunta, o que é adequado ao tamanho atual do histórico.
 - O token JWT do Java expira em cerca de uma hora; após isso é preciso entrar de novo.
 
