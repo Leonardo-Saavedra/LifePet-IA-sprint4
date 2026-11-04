@@ -248,10 +248,12 @@ Acesse [http://localhost:5173](http://localhost:5173), entre com o usuário de t
 
 ## Limitações conhecidas
 
+- **Disponibilidade do modelo Gemini:** o Gemini 3.5 Flash apresenta melhor desempenho nas respostas do VetBot em comparação ao Gemini 3.5 Flash Lite. Entretanto, devido à maior demanda e aos limites de requisições da API, pode ser necessário utilizar o modelo Flash Lite como alternativa para garantir a continuidade do serviço. A escolha do modelo pode ser ajustada conforme a disponibilidade e os limites de uso.
 - O banco do Java (H2) é em memória: os dados de teste são recriados a cada execução.
 - O modelo `gemini-3.5-flash-lite` pode retornar erro 503 em momentos de alta demanda. Nesse caso, a API devolve erro 502 e basta repetir a pergunta.
 - Os dados do pet são enviados inteiros a cada pergunta, o que é adequado ao tamanho atual do histórico.
 - O token JWT do Java expira em cerca de uma hora; após isso é preciso entrar de novo.
+
 
 ## Repositórios relacionados
 
