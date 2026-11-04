@@ -7,3 +7,12 @@ __pycache__/
 
 # Variáveis de ambiente e chaves secretas
 .env
+
+# Java / Maven
+**/target/
+**/.idea/
+*.class
+
+# React / Node
+**/node_modules/
+**/dist/
