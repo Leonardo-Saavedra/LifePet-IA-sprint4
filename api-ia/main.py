@@ -24,6 +24,7 @@ def chat(requisicao: ChatRequest):
             requisicao.conversaId,
         )
     except Exception as erro:
+        print(f"ERRO REAL DO VETBOT: {repr(erro)}")
         raise HTTPException(
             status_code=502,
             detail=f"Falha ao consultar o modelo de IA: {erro}"

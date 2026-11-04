@@ -36,6 +36,7 @@ Contexto do sistema:
 def montar_system(pergunta: str, pet: dict) -> str:
     documentos = buscar_documentos(pergunta, top_k=3)
     contexto = formatar_contexto(documentos)
+
     return (
         SYSTEM_PROMPT
         + f"\nData de hoje: {date.today().isoformat()}"
@@ -56,24 +57,43 @@ def conversar(pergunta: str, pet: dict, conversa_id: str | None = None):
         "tools": criar_ferramentas(),
         "system_instruction": system,
     }
+
     if conversa_id:
         parametros["previous_interaction_id"] = conversa_id
 
-    interaction = client.interactions.create(**parametros)
+    interaction = client.interactions.create(
+        **parametros,
+        timeout=30
+    )
 
-    for _ in range(MAX_RODADAS):
-        chamadas = [step for step in interaction.steps if step.type == "function_call"]
+    for rodada in range(MAX_RODADAS):
+        chamadas = [
+            step for step in interaction.steps
+            if step.type == "function_call"
+        ]
+
         if not chamadas:
             break
 
         resultados = []
+
         for chamada in chamadas:
-            resultado = executar_ferramenta(pet, chamada.name, chamada.arguments)
+            resultado = executar_ferramenta(
+                pet,
+                chamada.name,
+                chamada.arguments
+            )
+
             resultados.append({
                 "type": "function_result",
                 "name": chamada.name,
                 "call_id": chamada.id,
-                "result": [{"type": "text", "text": json.dumps(resultado, ensure_ascii=False)}],
+                "result": [
+                    {
+                        "type": "text",
+                        "text": json.dumps(resultado, ensure_ascii=False)
+                    }
+                ],
             })
 
         interaction = client.interactions.create(
@@ -85,4 +105,5 @@ def conversar(pergunta: str, pet: dict, conversa_id: str | None = None):
         )
 
     texto = interaction.output_text or "Desculpe, não consegui processar sua pergunta."
+
     return texto, interaction.id
